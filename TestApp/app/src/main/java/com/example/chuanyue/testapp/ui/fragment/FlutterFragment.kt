@@ -16,6 +16,7 @@ class FlutterFragment: LazyFragment(){
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
         showFlutter()
+
     }
 
     private fun showFlutter(){

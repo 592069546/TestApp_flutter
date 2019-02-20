@@ -10,9 +10,9 @@ class FirstStatePage extends State<FirstPage>{
   @override
   Widget build(BuildContext context){
     return new Scaffold(
-      appBar: new AppBar(
+      /*appBar: new AppBar(
         title: new Text('第一个界面'),
-      ),
+      ),*/
       body: new Center(
         child: new List(),
     )
