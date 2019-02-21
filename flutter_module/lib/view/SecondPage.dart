@@ -13,18 +13,20 @@ class SecondStatePage extends State<SecondPage>{
   static const BasicMessageChannel<String> channel = BasicMessageChannel<String>(_channel, StringCodec());
   var textController = TextEditingController();
 
+  String message;
+
   @override
   void initState(){
     super.initState();
-    channel.setMessageHandler(receiveMessage);
+    channel.setMessageHandler(_receiveMessage);
   }
 
-  Widget buildTextField(TextEditingController textController){
-    return TextField(
-      controller: textController,
-      autofocus: true,
-    );
-  }
+//  Widget buildTextField(TextEditingController textController){
+//    return TextField(
+//      controller: textController,
+//      autofocus: true,
+//    );
+//  }
 
   @override
   Widget build(BuildContext context){
@@ -32,8 +34,21 @@ class SecondStatePage extends State<SecondPage>{
       appBar:  AppBar(
         title:  Text('第二个界面'),
       ),
-      body: Center(
-        child:TextField(),
+      body: Column(
+        mainAxisAlignment: MainAxisAlignment.center,
+        children: <Widget>[
+          TextField(
+            decoration: InputDecoration(
+                border: OutlineInputBorder()
+            ),
+            controller: textController,
+            autofocus: true,
+          ),
+          Text(
+            this.message == null ? '' : this.message,
+            softWrap: true,
+          ),
+        ]
       ),
       floatingActionButton: FloatingActionButton(
         onPressed: _sendMessage,
@@ -44,13 +59,15 @@ class SecondStatePage extends State<SecondPage>{
 
   void _sendMessage() {
     channel.send(textController.text);
-    print('已发送');
+//    print('已发送' );
+//    print(textController.text);
   }
 
-  Future<String> receiveMessage(String message) async {
+  Future<String> _receiveMessage(String message) async {
     setState(() {
-
+      this.message = message;
     });
+    print('已接收' );
     print(message);
     return message;
   }
