@@ -67,8 +67,9 @@ class SecondStatePage extends State<SecondPage>{
     setState(() {
       this.message = message;
     });
-    print('已接收' );
-    print(message);
+    this.message = message;
+//    print('已接收' );
+//    print(message);
     return message;
   }
 }

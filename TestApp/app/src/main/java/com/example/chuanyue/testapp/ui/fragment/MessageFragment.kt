@@ -2,24 +2,19 @@ package com.example.chuanyue.testapp.ui.fragment
 
 import android.arch.lifecycle.Observer
 import android.arch.lifecycle.ViewModelProviders
-import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import io.flutter.plugin.common.BasicMessageChannel
-import io.flutter.plugin.common.StringCodec
-import io.flutter.view.FlutterMain
-import io.flutter.view.FlutterRunArguments
 
 import kotlinx.android.synthetic.main.fragment_message.*
 import com.example.chuanyue.testapp.R
 import com.example.chuanyue.testapp.ui.viewmodel.FlutterViewModel
-import java.lang.Exception
 
 class MessageFragment: BaseFragment(), View.OnClickListener{
     private val model by lazy {
         activity.run {
             ViewModelProviders.of(activity!!).get(FlutterViewModel::class.java) //?: throw Exception("Invild Activity")
+            //of()函数如果是this为参数，同一个activity内的不同fragment获取的是不同的ViewModel对象
         }
     }
     private val TAG = "MessageFragment"
@@ -33,10 +28,6 @@ class MessageFragment: BaseFragment(), View.OnClickListener{
 //        val g = getArgsFromIntent(i)
 //        //FlutterMain.ensureInitializationComplete(a, g)
 //        //runArguments.bundlePath = FlutterMain.findAppBundlePath(activity!!.application)
-//        messageChannel.setMessageHandler { s, reply ->
-//            receiveMessage(s)
-//            reply.reply(s)
-//        }
     }
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
@@ -66,14 +57,6 @@ class MessageFragment: BaseFragment(), View.OnClickListener{
         model.flutterData.observe(this@MessageFragment, Observer { s -> receiveMessage(s!!) })
     }
 
-//
-//    private fun sendMessage(){
-//        messageChannel.send(PING)
-//    }
-//
-//    private fun receiveMessage(string: String){
-//        message_text.text = string
-//    }
 //
 //    private fun getArgsFromIntent(intent: Intent): Array<String>{
 //        val args = ArrayList<String>()

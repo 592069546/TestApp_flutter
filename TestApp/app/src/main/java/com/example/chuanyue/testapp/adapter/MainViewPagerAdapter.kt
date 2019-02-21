@@ -11,9 +11,9 @@ class MainViewPagerAdapter(fm: FragmentManager): FragmentPagerAdapter(fm){
 
     private val mTitle = arrayOf("Flutter", "Person", "Message")
 
-    val mFlutterFragment by lazy { FlutterFragment() }
-    val mPersonFragment by lazy { PersonFragment() }
-    val mMessageFragment by lazy { MessageFragment() }
+    private val mFlutterFragment by lazy { FlutterFragment() }
+    private val mPersonFragment by lazy { PersonFragment() }
+    private val mMessageFragment by lazy { MessageFragment() }
 
 
     override fun getItem(position: Int): Fragment = when (position) {

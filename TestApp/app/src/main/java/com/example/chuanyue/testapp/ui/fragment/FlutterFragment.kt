@@ -5,28 +5,23 @@ import android.arch.lifecycle.ViewModelProviders
 import android.os.Bundle
 import android.util.Log
 import android.view.View
-import android.widget.Toast
 
 import io.flutter.facade.Flutter
 import io.flutter.plugin.common.BasicMessageChannel
 import io.flutter.plugin.common.StringCodec
-import io.flutter.view.FlutterView
-
 
 import com.example.chuanyue.testapp.R
 import com.example.chuanyue.testapp.ui.viewmodel.FlutterViewModel
 
 import kotlinx.android.synthetic.main.fragment_flutter.*
-import java.lang.Exception
 
 class FlutterFragment: LazyFragment(){
     private val CHANNEL = "message"
-    private val PING = "ping"
     private val TAG = "FlutterFragment"
 
     override val layoutId = R.layout.fragment_flutter
-    lateinit var flutterView: FlutterView
-    lateinit var messageChannel: BasicMessageChannel<String>
+    private val flutterView by lazy { Flutter.createView(activity!!, lifecycle, "/") }
+    private val messageChannel by lazy { BasicMessageChannel<String>(flutterView, CHANNEL, StringCodec.INSTANCE) }
 
     private val model by lazy {
         activity.run {
@@ -36,9 +31,6 @@ class FlutterFragment: LazyFragment(){
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-//        model = activity?.run {
-//            ViewModelProviders.of(this@FlutterFragment).get(FlutterViewModel::class.java)
-//        }?: throw Exception("Invalid Activity")
     }
 
     override fun initView(view: View, savedInstanceState: Bundle?) {
@@ -47,9 +39,7 @@ class FlutterFragment: LazyFragment(){
     }
 
     private fun showFlutter(){
-        flutterView =  Flutter.createView(activity!!, lifecycle, "/")
         fragment_flutter_layout.addView(flutterView)
-        messageChannel = BasicMessageChannel<String>(flutterView, CHANNEL, StringCodec.INSTANCE)
         messageChannel.setMessageHandler { s, reply ->
             receiveMessage(s)
             reply.reply(s)
@@ -69,7 +59,6 @@ class FlutterFragment: LazyFragment(){
     }
 
     private fun receiveMessage(string: String){
-//        Toast.makeText(activity, string, Toast.LENGTH_LONG).show()
         model.flutterData.value = string
         Log.v(TAG, "android已接收")
     }
