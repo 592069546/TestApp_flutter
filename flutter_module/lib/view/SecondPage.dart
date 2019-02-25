@@ -9,14 +9,13 @@ class SecondPage extends StatefulWidget{
 
 class SecondStatePage extends State<SecondPage>{
   static const String _channel = 'message';
-  static const String _pong = 'pong';
   static const BasicMessageChannel<String> channel = BasicMessageChannel<String>(_channel, StringCodec());
   var textController = TextEditingController();
 
-  String message;
+  String _message = "";
 
   @override
-  void initState(){
+  void initState(){  //插入渲染树的时候调用，这个函数在生命周期中只调用一次
     super.initState();
     channel.setMessageHandler(_receiveMessage);
   }
@@ -31,9 +30,9 @@ class SecondStatePage extends State<SecondPage>{
   @override
   Widget build(BuildContext context){
     return  Scaffold(
-      appBar:  AppBar(
-        title:  Text('第二个界面'),
-      ),
+//      appBar:  AppBar(
+//        title:  Text('第二个界面'),
+//      ),
       body: Column(
         mainAxisAlignment: MainAxisAlignment.center,
         children: <Widget>[
@@ -45,7 +44,7 @@ class SecondStatePage extends State<SecondPage>{
             autofocus: true,
           ),
           Text(
-            this.message == null ? '' : this.message,
+            _message ,
             softWrap: true,
           ),
         ]
@@ -65,11 +64,11 @@ class SecondStatePage extends State<SecondPage>{
 
   Future<String> _receiveMessage(String message) async {
     setState(() {
-      this.message = message;
+      _message = message;
     });
-    this.message = message;
+    _message = message;
 //    print('已接收' );
-//    print(message);
+    print("RxJava $message");
     return message;
   }
 }

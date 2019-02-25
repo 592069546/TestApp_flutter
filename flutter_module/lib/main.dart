@@ -125,8 +125,8 @@ class _MyHomePageState extends State<MyHomePage> with SingleTickerProviderStateM
       body: TabBarView(
         controller: controller,
         children: <Widget>[
-          FirstPage(),
           SecondPage(),
+          FirstPage(),
           ThirdPage(),
         ],
       ),

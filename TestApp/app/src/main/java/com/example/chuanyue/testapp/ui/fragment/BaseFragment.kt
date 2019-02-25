@@ -6,18 +6,22 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import io.reactivex.disposables.CompositeDisposable
+import io.reactivex.disposables.Disposable
 
 abstract class BaseFragment: Fragment(){
     companion object {
         val TAG = "BaseFragment"
     }
 
+    private var mCompositeDisposable: CompositeDisposable ?= null
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?, savedInstanceState: Bundle?): View? {
-        Log.v(TAG,"onCreateView")
+        //Log.v(TAG,"onCreateView")
         return inflater.inflate(layoutId, container, false)
     }
 
@@ -34,5 +38,18 @@ abstract class BaseFragment: Fragment(){
 
     protected abstract fun initView(view: View, savedInstanceState: Bundle?)
 
+    fun addDisposable(disposable: Disposable){
+        if(mCompositeDisposable == null){
+            mCompositeDisposable = CompositeDisposable()
+        }
+        mCompositeDisposable?.add(disposable)
+    }
 
+    fun removeDisposable(disposable: Disposable) {
+        mCompositeDisposable?.remove(disposable)
+    }
+
+    fun clearAllDisposable() {
+        mCompositeDisposable?.clear()
+    }
 }

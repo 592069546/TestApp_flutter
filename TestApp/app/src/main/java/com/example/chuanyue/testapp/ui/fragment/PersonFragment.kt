@@ -9,12 +9,21 @@ import java.util.ArrayList
 import com.example.chuanyue.testapp.adapter.PersonAdapter
 import com.example.chuanyue.testapp.R
 import com.example.chuanyue.testapp.data.Person
+import com.example.chuanyue.testapp.rxjava.RxBus
+import com.example.chuanyue.testapp.rxjava.RxConst
 import kotlinx.android.synthetic.main.fragment_person.*
 
 class PersonFragment: LazyFragment(), View.OnClickListener{
     var mdata = ArrayList<Person>()
     val adapter by lazy { PersonAdapter(context!!,mdata) }
     val person = Person()
+    private val mDisposable by lazy {
+        RxBus.listen(RxConst.EVENT_ANDROID_FLUTTER_RXJAVA_CHANNEL)
+            .subscribe {
+                person_text.text = it
+//            Log.v(RxTAG,"Message接收")
+            }
+    }
 
     override val layoutId = R.layout.fragment_person
 
@@ -32,6 +41,7 @@ class PersonFragment: LazyFragment(), View.OnClickListener{
         add.setTextColor(ContextCompat.getColor(context!!, R.color.colorAccent))
         add.visibility = View.INVISIBLE
         del.setOnClickListener(this)
+        addDisposable(mDisposable)
     }
 
     override fun onClick(view: View){
@@ -39,6 +49,11 @@ class PersonFragment: LazyFragment(), View.OnClickListener{
             R.id.add -> addItem()
             R.id.del -> delItem()
         }
+    }
+
+    override fun onDestroyView() {
+        super.onDestroyView()
+        removeDisposable(mDisposable)
     }
 
     private fun addItem(){

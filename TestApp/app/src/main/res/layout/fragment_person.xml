@@ -24,6 +24,11 @@
                 android:id="@+id/del"
                 style="@style/CheckFailureReason"
                 android:text="@string/del" />
+
+        <TextView
+                android:id="@+id/person_text"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"/>
     </LinearLayout>
 
 
